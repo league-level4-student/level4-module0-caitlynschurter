@@ -24,7 +24,7 @@ public class MazeMaker{
 		//4. select a random cell to start
 		int x = randGen.nextInt(width);
 		int y = randGen.nextInt(height);
-		Cell cell = maze.cells[x][y];
+		Cell cell = maze.getCell(x, y);
 		
 		//5. call selectNextPath method with the randomly selected cell
 		selectNextPath(cell);
@@ -48,21 +48,21 @@ public class MazeMaker{
 			//C2. push it to the stack
 			uncheckedCells.push(newCell);
 			//C3. remove the wall between the two cells
-			removeWalls(newCell, currentCell);
+			removeWalls(currentCell, newCell);
 			//C4. make the new cell the current cell and mark it as visited
-			newCell = currentCell;
+			currentCell = newCell;
 			currentCell.hasBeenVisited();
 			//C5. call the selectNextPath method with the current cell
 			selectNextPath(currentCell);
 		}
 		//D. if all neighbors are visited
-		if(unvisitedNeighbors.size() == 0) {
+		if(unvisitedNeighbors.size() > 0) {
 			//D1. if the stack is not empty
 			if(uncheckedCells.size() != 0) {
 				// D1a. pop a cell from the stack
 				Cell poppedCell = uncheckedCells.pop();
 				// D1b. make that the current cell
-				poppedCell = currentCell;
+				currentCell = poppedCell;
 				// D1c. call the selectNextPath method with the current cell
 				selectNextPath(currentCell);
 			}
@@ -75,13 +75,13 @@ public class MazeMaker{
 	//   If they are, the walls between them are removed.
 	private static void removeWalls(Cell c1, Cell c2) {
 		if(c1.getX() > c2.getX() && c1.getY() == c2.getY()) {
-			c1.setEastWall(false);
-			c2.setWestWall(false);
+			c2.setEastWall(false);
+			c1.setWestWall(false);
 		}
 		
 		else if (c1.getX() < c2.getX() && c1.getY() == c2.getY()) {
-			c1.setWestWall(false);
-			c2.setEastWall(false);
+			c2.setWestWall(false);
+			c1.setEastWall(false);
 		}
 		
 		else if(c1.getY() > c2.getY() && c1.getX() == c2.getX()) {
@@ -99,9 +99,39 @@ public class MazeMaker{
 	//   Any unvisited neighbor of the passed in cell gets added
 	//   to the ArrayList
 	private static ArrayList<Cell> getUnvisitedNeighbors(Cell c) {
-		/**create a new ArrayList and add c to it??**/
+		/**check to see if neighboring cells are visited**/
 		ArrayList<Cell> list = new ArrayList<Cell>();
-		list.add(c);
+		int x = c.getX();
+		int y = c.getY();
+		
+		if(x > 0) { //west
+			Cell west = maze.getCell(x-1, y);
+			if(!west.hasBeenVisited()) {
+				list.add(west);
+			}
+		}
+		
+		if(y > 0) { //north
+			Cell north = maze.getCell(x, y-1);
+			if(!north.hasBeenVisited()) {
+				list.add(north);
+			}
+		}
+		
+		if(x < width-1) { //east
+			Cell east = maze.getCell(x+1, y);
+			if(!east.hasBeenVisited()) {
+				list.add(east);
+			}
+		}
+		
+		if(y < height-1) { //south
+			Cell south = maze.getCell(x, y+1);
+			if(!south.hasBeenVisited()) {
+				list.add(south);
+			}
+		}
+
 		return list;
 	}
 }
