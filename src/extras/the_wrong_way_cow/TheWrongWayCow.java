@@ -43,10 +43,62 @@ package extras.the_wrong_way_cow;
 
 public class TheWrongWayCow {
 
-    public static int[] findWrongWayCow(final char[][] field) {
-        // Fill in the code to return the x,y coordinate position of the
-        // head (letter 'c') of the wrong way cow!
-        
-        return null;
-    }
+	public static int[] findWrongWayCow(final char[][] field) {
+		// Fill in the code to return the x,y coordinate position of the
+		// head (letter 'c') of the wrong way cow!
+
+		// store all 'cow's in the varaibles north, south, east, and west
+		// ignore imaginary cows; locate wrong way cow (find where there's only 1 cow in a certain direction)
+		// return where 'c' is located: [x][y]
+
+		int westCow = 0;
+		int eastCow = 0;
+		int northCow = 0;
+		int southCow = 0;
+		
+		//change i and j to x and y
+		for (int i = 0; i < field.length - 1; i++) {
+			for (int j = 0; j < field.length - 1; j++) {
+				if (field[i][j] == 'c') {
+					// west
+					if (i < field.length - 2) {
+						if (field[i + 1][j] == 'o') {
+							if(field[i+2][j] == 'w') {
+								westCow++;
+							} 
+						}
+					}
+					
+					//east
+					if(i > 1) {
+						if(field[i-1][j] == 'o') {
+							if(field[i-2][j] == 'w') {
+								eastCow++;
+							}
+						}
+					}
+					//north
+					if(j < field.length -2) {
+						if(field[i][j+1] == 'o') {
+							if(field[i][j+2] == 'w') {
+								northCow++;
+							}
+						}
+					}
+					//south
+					if(j < 1) {
+						if(field[i][j-1] == 'o') {
+							if(field[i][j-2] == 'w') {
+							southCow++;	
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		
+
+		return null;
+	}
 }
