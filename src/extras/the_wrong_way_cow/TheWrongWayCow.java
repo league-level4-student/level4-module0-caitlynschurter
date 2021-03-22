@@ -48,57 +48,75 @@ public class TheWrongWayCow {
 		// head (letter 'c') of the wrong way cow!
 
 		// store all 'cow's in the varaibles north, south, east, and west
-		// ignore imaginary cows; locate wrong way cow (find where there's only 1 cow in a certain direction)
+		// 'most recent' variable for each direction
+		// ignore imaginary cows; locate wrong way cow (find where there's only 1 cow in
+		// a certain direction)
 		// return where 'c' is located: [x][y]
 
 		int westCow = 0;
 		int eastCow = 0;
 		int northCow = 0;
 		int southCow = 0;
-		
-		//change i and j to x and y
-		for (int i = 0; i < field.length - 1; i++) {
-			for (int j = 0; j < field.length - 1; j++) {
-				if (field[i][j] == 'c') {
+
+		int recentWest[] = null;
+		int recentEast[] = null;
+		int recentNorth[] = null;
+		int recentSouth[] = null;
+
+		for (int x = 0; x < field.length - 1; x++) {
+			for (int y = 0; y < field.length - 1; y++) {
+				if (field[x][y] == 'c') {
+
 					// west
-					if (i < field.length - 2) {
-						if (field[i + 1][j] == 'o') {
-							if(field[i+2][j] == 'w') {
-								westCow++;
-							} 
+					if (x < field.length - 2) {
+						if (field[x + 1][y] == 'o' && field[x + 2][y] == 'w') {
+							westCow++;
+							recentWest = new int[] { x, y };
 						}
 					}
-					
-					//east
-					if(i > 1) {
-						if(field[i-1][j] == 'o') {
-							if(field[i-2][j] == 'w') {
-								eastCow++;
-							}
+
+					// east
+					if (x > 1) {
+						if (field[x - 1][y] == 'o' && field[x - 2][y] == 'w') {
+							eastCow++;
+							recentEast = new int[] { x, y };
 						}
 					}
-					//north
-					if(j < field.length -2) {
-						if(field[i][j+1] == 'o') {
-							if(field[i][j+2] == 'w') {
-								northCow++;
-							}
+
+					// north
+					if (y < field.length - 2) {
+						if (field[x][y + 1] == 'o' && field[x][y + 2] == 'w') {
+							northCow++;
+							recentNorth = new int[] { x, y };
 						}
 					}
-					//south
-					if(j < 1) {
-						if(field[i][j-1] == 'o') {
-							if(field[i][j-2] == 'w') {
-							southCow++;	
-							}
+
+					// south
+					if (y < 1) {
+						if (field[x][y - 1] == 'o' && field[x][y - 2] == 'w') {
+							southCow++;
+							recentSouth = new int[] { x, y };
 						}
 					}
 				}
 			}
 		}
-		
-		
 
-		return null;
+		if (westCow == 1) {
+			return recentWest;
+		}
+
+		else if (eastCow == 1) {
+			return recentEast;
+		}
+
+		else if (northCow == 1) {
+			return recentNorth;
+		}
+
+		else {
+			return recentSouth;
+		}
+
 	}
 }
