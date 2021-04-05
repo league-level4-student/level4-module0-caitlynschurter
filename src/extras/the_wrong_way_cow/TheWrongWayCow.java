@@ -63,13 +63,13 @@ public class TheWrongWayCow {
 		int recentNorth[] = null;
 		int recentSouth[] = null;
 
-		for (int x = 0; x < field.length - 1; x++) {
-			for (int y = 0; y < field.length - 1; y++) {
-				if (field[x][y] == 'c') {
+		for (int y = 0; y < field.length; y++) {
+			for (int x = 0; x < field[y].length; x++) {
+				if (field[y][x] == 'c') {
 
 					// west
-					if (x < field.length - 2) {
-						if (field[x + 1][y] == 'o' && field[x + 2][y] == 'w') {
+					if (x < field[y].length - 2) {
+						if (field[y][x + 1] == 'o' && field[y][x + 2] == 'w') {
 							westCow++;
 							recentWest = new int[] { x, y };
 						}
@@ -77,7 +77,7 @@ public class TheWrongWayCow {
 
 					// east
 					if (x > 1) {
-						if (field[x - 1][y] == 'o' && field[x - 2][y] == 'w') {
+						if (field[y][x - 1] == 'o' && field[y][x - 2] == 'w') {
 							eastCow++;
 							recentEast = new int[] { x, y };
 						}
@@ -85,15 +85,15 @@ public class TheWrongWayCow {
 
 					// north
 					if (y < field.length - 2) {
-						if (field[x][y + 1] == 'o' && field[x][y + 2] == 'w') {
+						if (field[y + 1][x] == 'o' && field[y + 2][x] == 'w') {
 							northCow++;
 							recentNorth = new int[] { x, y };
 						}
 					}
 
 					// south
-					if (y < 1) {
-						if (field[x][y - 1] == 'o' && field[x][y - 2] == 'w') {
+					if (y > 1) {
+						if (field[y - 1][x] == 'o' && field[y - 2][x] == 'w') {
 							southCow++;
 							recentSouth = new int[] { x, y };
 						}
